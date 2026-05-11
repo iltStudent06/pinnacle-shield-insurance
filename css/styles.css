@@ -1,81 +1,241 @@
-/* =========================
-   CSS Reset
-========================= */
+/*  =======================
+    General: CSS Reset
+    ====================== */
 *,
 *::before,
 *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-
-
-    /* =========================
-   Navigation Bar
-========================= */
-    .navbar {
-        padding: 0.85rem 0;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    }
-
-    .navbar-brand {
-        font-weight: 700;
-        font-size: 1.1rem;
-    }
-
-    .navbar-dark .navbar-nav .nav-link {
-        color: rgba(255, 255, 255, 0.8);
-        transition: color 0.3s ease;
-    }
-
-    .navbar-dark .navbar-nav .nav-link:hover,
-    .navbar-dark .navbar-nav .nav-link.active {
-        color: #ffffff;
-        font-weight: bolder;
-    }
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 
 
 
-/* =========================
-   Footer
-========================= */
-footer {
+/*  =======================
+    General: Navigation Bar
+    ======================= */
+  .navbar {
+    padding: 0.85rem 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .navbar-brand {
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+
+  .navbar-dark .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.8);
+    transition: color 0.3s ease;
+  }
+
+  .navbar-dark .navbar-nav .nav-link:hover,
+  .navbar-dark .navbar-nav .nav-link.active {
+    color: #ffffff;
+    font-weight: bolder;
+  }
+
+
+/*  ==================================
+    General: Body & Section Formatting
+    ================================== */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+    color: #4e555e;
+    background-color: #ffffff;
+}
+
+section {
+    padding: 60px 0;
+    scroll-margin-top: 80px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 700;
+}
+
+/*  ========================
+    Homepage: Hero Section
+    ======================== */
+  .hero-section {
+    background: linear-gradient(135deg, #499da8, #62cbd6);
+    color: #ffffff;
+    text-align: center;
+    padding: 100px 20px;
+  }
+
+  .hero-section h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .hero-section p {
+    font-size: 1.15rem;
+    max-width: 700px;
+    margin: 0 auto 1.5rem;
+  }
+
+  .hero-section .btn {
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+  }
+
+/*  ==========================
+    Homepage: Section Headings
+    ========================== */
+  section h2 {
+    margin-bottom: 1rem;
+    color: #222;
+    text-align: center;
+  }
+
+/*  ==========================
+    Homepage: Card Effects
+    ========================== */
+  .card {
+    border: none;
+    border-radius: 12px;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  }
+
+  .card-body {
+    padding: 1.5rem;
+  }
+
+  .card-title {
+    margin-bottom: 0.75rem;
+  }
+
+  .card-text {
+    color: #555;
+  }
+
+/*  ======================
+    Product Types Section
+    ====================== */
+  .product-types-section {
+      background-color: #ffffff;
+  }
+
+  .product-types-section .card {
+      background-color: #ffffff;
+  }
+
+  .product-types-section .btn {
+      margin-top: 0.75rem;
+      border-radius: 6px;
+      font-weight: 600;
+  }
+
+/*  =============================
+    Customer Testimonials Section
+    ============================= */
+  .testimonials-section {
+      background-color: #f8f9fa;
+  }
+
+  .testimonial-card {
+      border-left: 4px solid #0056b3;
+  }
+
+  .testimonial-text {
+      font-style: italic;
+      color: #444;
+      margin-bottom: 1rem;
+  }
+
+  .testimonial-name {
+      font-weight: 700;
+      color: #212529;
+  }
+
+  .testimonial-location {
+      font-size: 0.9rem;
+      color: #6c757d;
+  }
+
+/*  ======================
+    General: Footer
+    ====================== */
+  footer {
     background-color: #212529;
     color: #ffffff;
     padding: 40px 0 20px;
-}
+  }
 
-footer h5 {
+  footer h5 {
     margin-bottom: 1rem;
     font-size: 1.1rem;
-}
+  }
 
-footer p,
-footer li,
-footer a {
+  footer p,
+  footer li,
+  footer a {
     color: rgba(255, 255, 255, 0.75);
     font-size: 0.95rem;
-}
+  }
 
-footer a {
+  footer a {
     text-decoration: none;
     transition: color 0.3s ease;
-}
+  }
 
-footer a:hover {
+  footer a:hover {
     color: #ffffff;
-}
+  }
 
-footer ul {
+  footer ul {
     list-style: none;
     padding-left: 0;
-}
+  }
 
-footer li {
+  footer li {
     margin-bottom: 0.5rem;
-}
+  }
 
-footer hr {
+  footer hr {
     border-color: rgba(255, 255, 255, 0.15);
     margin: 1.5rem 0;
+  }
 }
+/*  =========================
+    Media Query
+    ========================= */
+@media (max-width: 768px) {
+    section {
+        padding: 45px 0;
+    }
+
+    .hero-section {
+        padding: 70px 15px;
+    }
+
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+
+    .hero-section p {
+        font-size: 1rem;
+    }
+
+    footer {
+        text-align: center;
+    }
+
+    footer .col-md-4 {
+        margin-bottom: 1.5rem;
+    }
 }
