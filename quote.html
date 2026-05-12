@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Get a Quote | Pinnacle Shield Insurance</title>
+
+    <!-- Bootstrap 5 CDN for layout and components -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body>
+
+    <!-- Header / Navigation Bar -->
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="index.html">
+                    <i class="bi bi-shield-fill-check text-info me-2"></i>
+                    Pinnacle Shield Insurance
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                    aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="mainNavbar">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html#why-choose">Why Choose Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html#product-types">Our Products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html#testimonials">Customer Testimonials</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="quote.html">Get a Quote</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="about.html">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="faq.html">FAQ</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <!-- Main -->
+
+    <main>
+
+
+        <section class="py-5 bg-light">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10 col-xl-8">
+
+                        <!-- Page Heading -->
+                        <div class="text-center mb-4">
+                            <h1 class="mb-3">Get Your Insurance Quote</h1>
+                            <p class="text-muted text-start">
+                                Choose an insurance type below and complete the form to receive an
+                                estimated quote. Additional questions will appear based on the
+                                insurance product you select.
+                            </p>
+                        </div>
+
+                        <!-- Quote Form -->
+                        <div class="card shadow-sm mb-4">
+                            <div class="card-body p-4">
+                                <form id="quoteForm" novalidate>
+                                    <div class="row g-3">
+
+                                        <!-- Insurance Type Cards -->
+                                        <div class="col-12 mb-3">
+                                            <fieldset>
+                                                <legend class="form-label fw-bold mb-3">Step 1: Choose An Insurance
+                                                    Type & Enter Your Information
+                                                </legend>
+
+                                                <div class="row g-3">
+                                                    <div class="col-md-4">
+                                                        <input type="radio" class="insurance-option-input"
+                                                            name="insuranceType" id="autoInsurance" value="auto"
+                                                            required />
+                                                        <label for="autoInsurance" class="insurance-option-card">
+                                                            <i class="bi bi-car-front-fill fs-2 text-primary mb-2"></i>
+                                                            <span class="d-block fw-bold">Auto Insurance</span>
+                                                        </label>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <input type="radio" class="insurance-option-input"
+                                                            name="insuranceType" id="homeInsurance" value="home" />
+                                                        <label for="homeInsurance" class="insurance-option-card">
+                                                            <i class="bi bi-house-door-fill fs-2 text-success mb-2"></i>
+                                                            <span class="d-block fw-bold">Home Insurance</span>
+                                                        </label>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <input type="radio" class="insurance-option-input"
+                                                            name="insuranceType" id="lifeInsurance" value="life" />
+                                                        <label for="lifeInsurance" class="insurance-option-card">
+                                                            <i class="bi bi-heart-pulse-fill fs-2 text-danger mb-2"></i>
+                                                            <span class="d-block fw-bold">Life Insurance</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+
+                                        <!-- Shared Fields -->
+                                        <div class="col-md-6">
+                                            <label for="fullName" class="form-label">Full Name</label>
+                                            <input type="text" class="form-control" id="fullName" name="fullName"
+                                                placeholder="Enter your full name" minlength="2" required />
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label for="email" class="form-label">Email Address</label>
+                                            <input type="email" class="form-control" id="email" name="email"
+                                                placeholder="Enter your email" required />
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label for="age" class="form-label">Age</label>
+                                            <input type="number" class="form-control" id="age" name="age"
+                                                placeholder="Enter your age" min="16" max="100" required />
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label for="zipCode" class="form-label">Zip Code</label>
+                                            <input type="text" class="form-control" id="zipCode" name="zipCode"
+                                                placeholder="Enter 5-digit Zip code" pattern="[0-9]{5}" maxlength="5"
+                                                inputmode="numeric" required />
+                                        </div>
+
+                                        <!-- Auto Insurance Fields -->
+                                        <div id="autoFields" class="col-12 d-none">
+                                            <div class="border rounded-3 bg-white p-4 mt-2">
+                                                <h2 class="form-step-heading">Step 2: Enter Auto Insurance Details</h2>
+
+                                                <div class="row g-3">
+                                                    <div class="col-md-6">
+                                                        <label for="vehicleYear" class="form-label">Vehicle
+                                                            Year</label>
+                                                        <input type="number" class="form-control" id="vehicleYear"
+                                                            name="vehicleYear" placeholder="Enter vehicle year"
+                                                            min="1990" max="2026" data-required="true" disabled />
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label for="vehicleMake" class="form-label">Vehicle
+                                                            Make</label>
+                                                        <select class="form-select" id="vehicleMake" name="vehicleMake"
+                                                            data-required="true" disabled>
+                                                            <option value="" selected>Select vehicle make</option>
+                                                            <option value="Toyota">Toyota</option>
+                                                            <option value="Honda">Honda</option>
+                                                            <option value="Ford">Ford</option>
+                                                            <option value="BMW">BMW</option>
+                                                            <option value="Tesla">Tesla</option>
+                                                            <option value="Other">Other</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label for="vehicleModel" class="form-label">Vehicle
+                                                            Model</label>
+                                                        <input type="text" class="form-control" id="vehicleModel"
+                                                            name="vehicleModel" placeholder="Enter vehicle model"
+                                                            data-required="true" disabled />
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label for="annualMileage" class="form-label">Enter Annual
+                                                            Mileage</label>
+                                                        <select class="form-select" id="annualMileage"
+                                                            name="annualMileage" data-required="true" disabled>
+                                                            <option value="" selected>Select annual mileage</option>
+                                                            <option value="Under 5000">Under 5,000</option>
+                                                            <option value="5000-10000">5,000–10,000</option>
+                                                            <option value="10001-15000">10,001–15,000</option>
+                                                            <option value="15001-20000">15,001–20,000</option>
+                                                            <option value="Over 20000">Over 20,000</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label for="drivingRecord" class="form-label">Driving
+                                                            Record</label>
+                                                        <select class="form-select" id="drivingRecord"
+                                                            name="drivingRecord" data-required="true" disabled>
+                                                            <option value="" selected>Select driving record</option>
+                                                            <option value="Clean">Clean</option>
+                                                            <option value="1 Ticket">1 Ticket</option>
+                                                            <option value="2+ Tickets">2+ Tickets</option>
+                                                            <option value="Accident in Last 3 Years">Accident in
+                                                                Last 3 Years</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-12">
+                                                        <label class="form-label d-block mb-2">Coverage
+                                                            Level</label>
+
+                                                        <input type="radio" class="btn-check" name="coverageLevel"
+                                                            id="coverageBasic" value="basic" data-required="true"
+                                                            autocomplete="off" disabled />
+                                                        <label class="btn btn-outline-primary me-2 mb-2"
+                                                            for="coverageBasic">Basic</label>
+
+                                                        <input type="radio" class="btn-check" name="coverageLevel"
+                                                            id="coverageStandard" value="standard" autocomplete="off"
+                                                            disabled />
+                                                        <label class="btn btn-outline-primary me-2 mb-2"
+                                                            for="coverageStandard">Standard</label>
+
+                                                        <input type="radio" class="btn-check" name="coverageLevel"
+                                                            id="coveragePremium" value="premium" autocomplete="off"
+                                                            disabled />
+                                                        <label class="btn btn-outline-primary mb-2"
+                                                            for="coveragePremium">Premium</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <!-- Home Insurance Fields -->
+                                        <div id="homeFields" class="col-12 d-none">
+                                            <div class="border rounded-3 bg-white p-4 mt-2">
+                                                <h2 class="form-step-heading">Step 2: Enter Home Insurance Details</h2>
+
+                                                <div class="row g-3">
+                                                    <div class="col-md-6">
+                                                        <label for="homeValue" class="form-label">Home Value</label>
+                                                        <input type="number" class="form-control" id="homeValue"
+                                                            name="homeValue" placeholder="Enter home value" min="50000"
+                                                            data-required="true" disabled />
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label for="yearBuilt" class="form-label">Year Built</label>
+                                                        <input type="number" class="form-control" id="yearBuilt"
+                                                            name="yearBuilt" placeholder="Enter year built" min="1900"
+                                                            max="2026" data-required="true" disabled />
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label for="squareFootage" class="form-label">Square
+                                                            Footage</label>
+                                                        <input type="number" class="form-control" id="squareFootage"
+                                                            name="squareFootage" placeholder="Enter square footage"
+                                                            min="500" max="10000" data-required="true" disabled />
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label for="constructionType" class="form-label">Construction
+                                                            Type</label>
+                                                        <select class="form-select" id="constructionType"
+                                                            name="constructionType" data-required="true" disabled>
+                                                            <option value="" selected>Select construction type
+                                                            </option>
+                                                            <option value="Wood Frame">Wood Frame</option>
+                                                            <option value="Brick">Brick</option>
+                                                            <option value="Concrete">Concrete</option>
+                                                            <option value="Steel">Steel</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-check mt-2">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                id="hasSecuritySystem" name="hasSecuritySystem"
+                                                                disabled />
+                                                            <label class="form-check-label" for="hasSecuritySystem">
+                                                                Has Security System
+                                                            </label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-check mt-2">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                id="hasFireSprinklers" name="hasFireSprinklers"
+                                                                disabled />
+                                                            <label class="form-check-label" for="hasFireSprinklers">
+                                                                Has Fire Sprinklers
+                                                            </label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-12">
+                                                        <label class="form-label d-block mb-2">Coverage
+                                                            Level</label>
+
+                                                        <input type="radio" class="btn-check" name="coverageLevel"
+                                                            id="homeCoverageBasic" value="basic" data-required="true"
+                                                            autocomplete="off" disabled />
+                                                        <label class="btn btn-outline-success me-2 mb-2"
+                                                            for="homeCoverageBasic">
+                                                            Basic
+                                                        </label>
+
+                                                        <input type="radio" class="btn-check" name="coverageLevel"
+                                                            id="homeCoverageStandard" value="standard"
+                                                            autocomplete="off" disabled />
+                                                        <label class="btn btn-outline-success me-2 mb-2"
+                                                            for="homeCoverageStandard">
+                                                            Standard
+                                                        </label>
+
+                                                        <input type="radio" class="btn-check" name="coverageLevel"
+                                                            id="homeCoveragePremium" value="premium" autocomplete="off"
+                                                            disabled />
+                                                        <label class="btn btn-outline-success mb-2"
+                                                            for="homeCoveragePremium">
+                                                            Premium
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <!-- Life Insurance Fields -->
+                                        <div id="lifeFields" class="col-12 d-none">
+                                            <div class="border rounded-3 bg-white p-4 mt-2">
+                                                <h2 class="form-step-heading">Step 2: Enter Life Insurance Details</h2>
+
+                                                <div class="row g-3">
+                                                    <div class="col-md-6">
+                                                        <label for="gender" class="form-label">Gender</label>
+                                                        <select class="form-select" id="gender" name="gender"
+                                                            data-required="true" disabled>
+                                                            <option value="" selected>Select gender</option>
+                                                            <option value="Male">Male</option>
+                                                            <option value="Female">Female</option>
+                                                            <option value="Non-binary">Non-binary</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label class="form-label d-block mb-2">Smoker</label>
+
+                                                        <div data-group-container="smoker">
+                                                            <input type="radio" class="btn-check" name="smoker"
+                                                                id="smokerYes" value="yes" data-required="true"
+                                                                autocomplete="off" disabled />
+                                                            <label class="btn btn-outline-danger me-2 mb-2"
+                                                                for="smokerYes">Yes</label>
+
+                                                            <input type="radio" class="btn-check" name="smoker"
+                                                                id="smokerNo" value="no" autocomplete="off" disabled />
+                                                            <label class="btn btn-outline-danger mb-2"
+                                                                for="smokerNo">No</label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label for="coverageAmount" class="form-label">Coverage
+                                                            Amount</label>
+                                                        <select class="form-select" id="coverageAmount"
+                                                            name="coverageAmount" data-required="true" disabled>
+                                                            <option value="" selected>Select coverage amount
+                                                            </option>
+                                                            <option value="100000">$100,000</option>
+                                                            <option value="250000">$250,000</option>
+                                                            <option value="500000">$500,000</option>
+                                                            <option value="1000000">$1,000,000</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label for="exerciseFrequency" class="form-label">Exercise
+                                                            Frequency</label>
+                                                        <select class="form-select" id="exerciseFrequency"
+                                                            name="exerciseFrequency" data-required="true" disabled>
+                                                            <option value="" selected>Select exercise frequency
+                                                            </option>
+                                                            <option value="Rarely">Rarely</option>
+                                                            <option value="1-2 times/week">1–2 times/week</option>
+                                                            <option value="3-4 times/week">3–4 times/week</option>
+                                                            <option value="5+ times/week">5+ times/week</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-12">
+                                                        <div class="form-check mt-2">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                id="preExistingConditions" name="preExistingConditions"
+                                                                disabled />
+                                                            <label class="form-check-label" for="preExistingConditions">
+                                                                Pre-existing Conditions
+                                                            </label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-12">
+                                                        <label class="form-label d-block mb-2">Coverage
+                                                            Level</label>
+
+                                                        <input type="radio" class="btn-check" name="coverageLevel"
+                                                            id="lifeCoverageBasic" value="basic" data-required="true"
+                                                            autocomplete="off" disabled />
+                                                        <label class="btn btn-outline-danger me-2 mb-2"
+                                                            for="lifeCoverageBasic">
+                                                            Basic
+                                                        </label>
+
+                                                        <input type="radio" class="btn-check" name="coverageLevel"
+                                                            id="lifeCoverageStandard" value="standard"
+                                                            autocomplete="off" disabled />
+                                                        <label class="btn btn-outline-danger me-2 mb-2"
+                                                            for="lifeCoverageStandard">
+                                                            Standard
+                                                        </label>
+
+                                                        <input type="radio" class="btn-check" name="coverageLevel"
+                                                            id="lifeCoveragePremium" value="premium" autocomplete="off"
+                                                            disabled />
+                                                        <label class="btn btn-outline-danger mb-2"
+                                                            for="lifeCoveragePremium">
+                                                            Premium
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                        <!-- Calculate Quote Button -->
+                                        <div class="col-12 text-center">
+                                            <button type="submit" class="btn btn-warning btn-lg">
+                                                Calculate My Quote
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Quote Results -->
+                        <section id="quoteResults" class="quote-results-section d-none mt-4">
+                            <div class="text-center mb-4">
+                                <h2 class="fw-bold">Your Quote Results</h2>
+                            </div>
+
+                            <!-- Quote Summary Card -->
+                            <div class="card quote-summary-card shadow-sm mb-4">
+                                <div class="quote-summary-header text-center">
+                                    Pinnacle Shield Insurance Quote
+                                </div>
+
+                                <div class="card-body text-center p-4">
+                                    <p class="mb-1">
+                                        Prepared for: <strong id="resultCustomerName">John Doe</strong>
+                                    </p>
+                                    <p class="mb-4">
+                                        Insurance Type: <strong id="resultInsuranceType">Auto Insurance</strong>
+                                    </p>
+
+                                    <div class="row g-3 justify-content-center">
+                                        <div class="col-md-5">
+                                            <div class="premium-box">
+                                                <p class="premium-label mb-2">Monthly Premium</p>
+                                                <div id="resultMonthly" class="premium-amount premium-monthly">
+                                                    $0.00</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-5">
+                                            <div class="premium-box">
+                                                <p class="premium-label mb-2">Annual Premium</p>
+                                                <div id="resultAnnual" class="premium-amount premium-annual">$0.00
+                                                </div>                                       
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Quote Breakdown Table -->
+                            <div class="quote-breakdown-wrapper">
+                                <h3 class="h5 fw-bold mb-3">Quote Breakdown</h3>
+
+                                <div class="table-responsive">
+                                    <table class="table table-striped quote-breakdown-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Factor</th>
+                                                <th>Your Info</th>
+                                                <th>Impact</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="quoteBreakdownBody">
+                                            <!-- Rows generated by JavaScript -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Form Action Buttons -->
+                            <div class="quote-actions d-flex flex-wrap gap-3 mt-4">
+                                <button type="button" id="getAnotherQuoteBtn"
+                                    class="btn btn-outline-primary quote-action-btn">
+                                    Get Another Quote
+                                </button>
+
+                                <button type="button" class="btn btn-outline-success quote-action-btn placeholder-btn"
+                                    aria-disabled="true">
+                                    <i class="bi bi-floppy-fill me-2"></i>Save Quote
+                                </button>
+
+                                <button type="button" class="btn btn-outline-info quote-action-btn placeholder-btn"
+                                    aria-disabled="true">
+                                    <i class="bi bi-balance-scale me-2"></i>Compare Quotes
+                                </button>
+
+                                <button type="button" class="btn btn-outline-secondary quote-action-btn placeholder-btn"
+                                    aria-disabled="true">
+                                    <i class="bi bi-printer-fill me-2"></i>Print Quote
+                                </button>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- Footer -->
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5>
+                        <i class="bi bi-shield-fill-check text-info me-2"></i>
+                        Pinnacle Shield Insurance
+                    </h5>
+                    <p>Protecting families since 1985.</p>
+                    <p>Headquartered in Hartford, CT.</p>
+                </div>
+
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5>Quick Links</h5>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="quote.html">Get a Quote</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4">
+                    <h5>Contact</h5>
+                    <p>
+                        <i class="bi bi-envelope-fill text-info me-2"></i>
+                        info@pinnacleshield.com
+                    </p>
+                    <p>
+                        <i class="bi bi-telephone-fill text-danger me-2"></i>
+                        1-800-555-SHIELD
+                    </p>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="text-center">
+                <p>&copy; 2026 Pinnacle Shield Insurance</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+    <!-- Custom JS -->
+    <script src="js/main.js"></script>
+    <script src="js/quote.js"></script>
+</body>
+
+</html>

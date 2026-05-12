@@ -1,49 +1,50 @@
-/*  =======================
+/* =======================
     General: CSS Reset
-    ====================== */
+    ======================== */
+
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
 
-
-/*  =======================
+/* =======================
     General: Navigation Bar
-    ======================= */
+    ======================== */
 
-  .navbar {
+.navbar {
     padding: 0.85rem 0;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  }
+}
 
-  .navbar-brand {
+.navbar-brand {
     font-weight: 700;
     font-size: 1.1rem;
-  }
+}
 
-  .navbar-dark .navbar-nav .nav-link {
+.navbar-dark .navbar-nav .nav-link {
     color: rgba(255, 255, 255, 0.8);
     transition: color 0.3s ease;
-  }
+}
 
-  .navbar-dark .navbar-nav .nav-link:hover,
-  .navbar-dark .navbar-nav .nav-link.active {
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link.active {
     color: #ffffff;
     font-weight: bolder;
-  }
+}
 
 
-/*  ==================================
+/* =======================
     General: Body & Section Formatting
-    ================================== */
+    ======================== */
 
 body {
     font-family: Arial, Helvetica, sans-serif;
     line-height: 1.6;
-    color: #4e555e;
+    color: #191a1b;
     background-color: #ffffff;
 }
 
@@ -61,180 +62,417 @@ h6 {
     font-weight: 700;
 }
 
-  section h2 {
-      margin-bottom: 1rem;
-      color: #222;
-      text-align: center;
-  }
+section h2 {
+    margin-bottom: 1rem;
+    color: #222;
+    text-align: center;
+}
 
-/*  ========================
-    Homepage: Hero Section
+
+/* =======================
+    Homepage: Hero
     ======================== */
 
-  .hero-section {
+.hero-section {
     background: linear-gradient(135deg, #499da8, #62cbd6);
     color: #ffffff;
     text-align: center;
     padding: 100px 20px;
-  }
+}
 
-  .hero-section h1 {
+.hero-section h1 {
     font-size: 3rem;
     margin-bottom: 1rem;
-  }
+}
 
-  .hero-section p {
+.hero-section p {
     font-size: 1.15rem;
     max-width: 700px;
     margin: 0 auto 1.5rem;
-  }
+}
 
-  .hero-section .btn {
+.hero-section .btn {
     font-weight: 600;
     padding: 0.75rem 1.5rem;
     border-radius: 8px;
-  }
+}
 
-
-/*  ==========================
+/* ==========================
     Homepage: Card Effects
     ========================== */
 
-  .card {
+.card {
     border: none;
     border-radius: 12px;
     transition:
-      transform 0.3s ease,
-      box-shadow 0.3s ease;
-  }
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
 
-  .card:hover {
+.card:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-  }
+}
 
-  .card-body {
+.card-body {
     padding: 1.5rem;
-  }
+}
 
-  .card-title {
+.card-title {
     margin-bottom: 0.75rem;
-  }
+}
 
-  .card-text {
+.card-text {
     color: #555;
-  }
+}
 
-/*  ================================
-    Homepage: Product Types Section
+/* ================================
+    Homepage: Product Types 
     ================================ */
 
-  .product-types-section {
-      background-color: #ffffff;
-  }
+.product-types-section {
+    background-color: #ffffff;
+}
 
-  .product-types-section .card {
-      background-color: #ffffff;
-  }
+.product-types-section .card {
+    background-color: #ffffff;
+}
 
-  .product-types-section .btn {
-      margin-top: 0.75rem;
-      border-radius: 6px;
-      font-weight: 600;
-  }
+.product-types-section .btn {
+    margin-top: 0.75rem;
+    border-radius: 6px;
+    font-weight: 600;
+}
 
-/*  ========================================
-    Homepage: Customer Testimonials Section
-    ======================================== */
+/* =========================
+    Homepage: Customer Testimonials 
+    ========================= */
 
-  .testimonials-section {
-      background-color: #f8f9fa;
-  }
+.testimonials-section {
+    background-color: #f8f9fa;
+}
 
-  .testimonial-card {
-      border-left: 4px solid #8ce4e7;
-  }
+.testimonial-card {
+    border-left: 4px solid #8ce4e7;
+}
 
-  .testimonial-text {
-      font-style: italic;
-      color: #444;
-      margin-bottom: 1rem;
-  }
+.testimonial-text {
+    font-style: italic;
+    color: #444;
+    margin-bottom: 1rem;
+}
 
-  .testimonial-name {
-      font-weight: 700;
-      color: #212529;
-  }
+.testimonial-name {
+    font-weight: 700;
+    color: #212529;
+}
 
-  .testimonial-location {
-      font-size: 0.9rem;
-      color: #6c757d;
-  }
+.testimonial-location {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
 
-/*  ======================
+
+/* ==============================================
+    Get a Quote: Insurance Product Types 
+    ============================================== */
+
+.insurance-option-input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.insurance-option-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 140px;
+    padding: 1.5rem 1rem;
+    text-align: center;
+    background-color: #ffffff;
+    border: 2px solid #dee2e6;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.insurance-option-card:hover {
+    border-color: #2e8894;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.insurance-option-input:checked+.insurance-option-card {
+    border-color: #2e8894;
+    background-color: #f0f7ff;
+    box-shadow: 0 8px 20px rgba(98, 219, 235, 0.15);
+}
+
+.insurance-option-input:focus+.insurance-option-card {
+    outline: 3px solid rgba(98, 219, 235, 0.2);
+    outline-offset: 2px;
+}
+
+
+/* ====================
+    Get a Quote: Form 
+    ==================== */
+
+.form-step-heading {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+#autoFields .border {
+    border-color: #dee2e6 !important;
+}
+
+#autoFields h2 {
+    color: #212529;
+}
+
+
+/* =========================
+    Get a Quote: Calculate Quote Button
+    ========================= */
+
+.btn {
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+
+/* =========================
+   Get a Quote: Quote Results 
+    ========================= */
+
+.quote-results-section {
+    padding-top: 10px;
+}
+
+.quote-summary-card {
+    border: 1px solid #6ea8fe;
+    border-radius: 6px;
+    overflow: hidden;
+    background-color: #ffffff;
+}
+
+.quote-summary-header {
+    background-color: #0d6efd;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.25rem;
+    padding: 0.9rem 1rem;
+}
+
+.premium-box {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem 1rem;
+    height: 100%;
+}
+
+.premium-label {
+    color: #6c757d;
+    font-size: 0.95rem;
+}
+
+.premium-amount {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.premium-monthly {
+    color: #0d6efd;
+}
+
+.premium-annual {
+    color: #198754;
+}
+
+
+/* =========================
+   Get a Quote: Breakdown Table
+    ========================= */
+
+.quote-breakdown-wrapper h3 {
+    color: #333;
+}
+
+.quote-breakdown-table {
+    margin-bottom: 0;
+    background-color: #ffffff;
+}
+
+.quote-breakdown-table thead th {
+    background-color: #212529;
+    color: #ffffff;
+    border-color: #212529;
+    font-size: 0.95rem;
+    vertical-align: middle;
+}
+
+.quote-breakdown-table tbody td {
+    vertical-align: middle;
+    font-size: 0.95rem;
+}
+
+.quote-breakdown-table tbody td:last-child {
+    font-weight: 600;
+}
+
+
+/* =========================
+   Get a Quote: Form Action Buttons
+    ========================= */
+
+.quote-actions {
+    justify-content: center;
+}
+
+.quote-action-btn {
+    min-width: 170px;
+    padding: 0.75rem 1.25rem;
+    font-weight: 500;
+    border-radius: 8px;
+}
+
+.placeholder-btn {
+    pointer-events: none;
+    cursor: not-allowed;
+    opacity: 1;
+    background-color: #ffffff;
+}
+
+.placeholder-btn.btn-outline-primary {
+    color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.placeholder-btn.btn-outline-success {
+    color: #198754;
+    border-color: #198754;
+}
+
+.placeholder-btn.btn-outline-info {
+    color: #0dcaf0;
+    border-color: #0dcaf0;
+}
+
+.placeholder-btn.btn-outline-secondary {
+    color: #6c757d;
+    border-color: #6c757d;
+}
+
+
+/* ======================
     General: Footer
     ====================== */
 
-  footer {
+footer {
     background-color: #212529;
     color: #ffffff;
     padding: 40px 0 20px;
-  }
+}
 
-  footer h5 {
+footer h5 {
     margin-bottom: 1rem;
     font-size: 1.1rem;
-  }
+}
 
-  footer p,
-  footer li,
-  footer a {
+footer p,
+footer li,
+footer a {
     color: rgba(255, 255, 255, 0.75);
     font-size: 0.95rem;
-  }
+}
 
-  footer a {
+footer a {
     text-decoration: none;
     transition: color 0.3s ease;
-  }
+}
 
-  footer a:hover {
+footer a:hover {
     color: #ffffff;
-  }
+}
 
-  footer ul {
+footer ul {
     list-style: none;
     padding-left: 0;
-  }
+}
 
-  footer li {
+footer li {
     margin-bottom: 0.5rem;
-  }
+}
 
-  footer hr {
+footer hr {
     border-color: rgba(255, 255, 255, 0.15);
     margin: 1.5rem 0;
-  }
 }
-/*  =========================
-    Media Query
-    ========================= */
-    
-@media (max-width: 768px) {
+
+
+/* =========================
+   Responsive Design
+========================= */
+
+/* Mobile */
+@media (max-width: 480px) {
     section {
-        padding: 45px 0;
+        padding: 40px 0;
+    }
+
+    .navbar-brand {
+        font-size: 1rem;
     }
 
     .hero-section {
-        padding: 70px 15px;
+        padding: 60px 15px;
     }
 
     .hero-section h1 {
-        font-size: 2rem;
+        font-size: 1.75rem;
+        line-height: 1.3;
     }
 
     .hero-section p {
+        font-size: 0.95rem;
+    }
+
+    .quote-summary-header {
         font-size: 1rem;
+        padding: 0.75rem 1rem;
+    }
+
+    .premium-box {
+        padding: 1.25rem 0.75rem;
+    }
+
+    .premium-amount {
+        font-size: 1.5rem;
+    }
+
+    .quote-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .quote-action-btn {
+        width: 100%;
+        min-width: auto;
+    }
+
+    .insurance-option-card {
+        min-height: 120px;
+        padding: 1.25rem 0.75rem;
     }
 
     footer {
@@ -244,4 +482,81 @@ h6 {
     footer .col-md-4 {
         margin-bottom: 1.5rem;
     }
+}
+
+/* Tablet */
+
+@media (max-width: 768px) {
+    section {
+        padding: 50px 0;
+    }
+
+    .hero-section {
+        padding: 80px 20px;
+    }
+
+    .hero-section h1 {
+        font-size: 2.25rem;
+    }
+
+    .hero-section p {
+        font-size: 1.05rem;
+    }
+
+    .quote-summary-header {
+        font-size: 1.1rem;
+    }
+
+    .premium-amount {
+        font-size: 1.8rem;
+    }
+
+    .quote-actions {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .quote-action-btn {
+        min-width: 180px;
+    }
+
+
+    footer {
+        text-align: center;
+    }
+
+    footer .col-md-4 {
+        margin-bottom: 1.5rem;
+    }
+}
+
+/* Desktop */
+@media (max-width: 1024px) {
+    .hero-section {
+        padding: 100px 20px;
+    }
+
+    .hero-section h1 {
+        font-size: 3rem;
+    }
+
+    .hero-section p {
+        font-size: 1.15rem;
+    }
+
+    .quote-summary-card {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .quote-breakdown-wrapper {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .quote-actions {
+        justify-content: center;
+    }
+
+  
 }
