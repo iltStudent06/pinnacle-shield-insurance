@@ -1539,47 +1539,83 @@ document.addEventListener("DOMContentLoaded", function () {
         return "No impact (x1.0)";
     }
 
+
+
     /* =========================================
        5. Get Another Quote Button
     ========================================= */
 
-    // Add click event to the "Get Another Quote" button
-    function initializeGetAnotherQuote() {
-        // Stop if button doesn't exist
-        if (!getAnotherQuoteBtn) return;
+// Add click event to the "Get Another Quote" button
+function initializeGetAnotherQuote() {
+    // Stop if button doesn't exist
+    if (!getAnotherQuoteBtn) return;
 
-        // Add click handler
-        getAnotherQuoteBtn.addEventListener("click", handleGetAnotherQuote);
+    // Add click handler
+    getAnotherQuoteBtn.addEventListener("click", handleGetAnotherQuote);
+}
+
+// Reset the form and go back to the top of the form
+function handleGetAnotherQuote() {
+    // Reset quote-specific fields but preserve shared/common fields
+    resetQuoteForm();
+
+    // Remove all validation styling and errors
+    clearAllValidation(form);
+
+    // Hide old quote results
+    hideQuoteResults();
+
+    // Recalculate which sections should be visible
+    updateQuoteSections();
+
+    // Scroll back to the form
+    scrollToForm();
+}
+
+// Reset the quote form but preserve shared fields
+function resetQuoteForm() {
+    // Save shared field values before resetting
+    var sharedValues = getSharedFieldValues();
+
+    // Reset the whole form
+    form.reset();
+
+    // Restore shared field values
+    restoreSharedFieldValues(sharedValues);
+}
+
+// Save the shared fields so the user does not have to enter them again
+function getSharedFieldValues() {
+    return {
+        fullName: getTrimmedValue("fullName"),
+        email: getTrimmedValue("email"),
+        age: getInputValue("age"),
+        zipCode: getTrimmedValue("zipCode")
+    };
+}
+
+// Put the shared values back into the form after reset
+function restoreSharedFieldValues(values) {
+    setFieldValue("fullName", values.fullName);
+    setFieldValue("email", values.email);
+    setFieldValue("age", values.age);
+    setFieldValue("zipCode", values.zipCode);
+}
+
+// Set a field's value by ID
+function setFieldValue(id, value) {
+    var field = document.getElementById(id);
+    if (field) {
+        field.value = value;
     }
+}
 
-    // Reset the form and go back to the top of the form
-    function handleGetAnotherQuote() {
-        // Reset all form fields
-        resetQuoteForm();
+// Smooth scroll back to the form
+function scrollToForm() {
+    form.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+}
 
-        // Remove all validation styling and errors
-        clearAllValidation(form);
-
-        // Hide old quote results
-        hideQuoteResults();
-
-        // Recalculate which sections should be visible
-        updateQuoteSections();
-
-        // Scroll back to the form
-        scrollToForm();
-    }
-
-    // Reset all fields in the form to their default values
-    function resetQuoteForm() {
-        form.reset();
-    }
-
-    // Smooth scroll back to the form
-    function scrollToForm() {
-        form.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-        });
-    }
 });
