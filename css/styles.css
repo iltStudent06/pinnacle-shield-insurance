@@ -266,7 +266,7 @@ section h2 {
 }
 
 .quote-summary-header {
-    background-color: #0d6efd;
+    background-color: #39a9b8;
     color: #ffffff;
     font-weight: 700;
     font-size: 1.25rem;
@@ -292,11 +292,11 @@ section h2 {
 }
 
 .premium-monthly {
-    color: #0d6efd;
+    color: #19949c;
 }
 
 .premium-annual {
-    color: #198754;
+    color: #25a76a;
 }
 
 
@@ -425,6 +425,7 @@ footer hr {
 ========================= */
 
 /* Mobile */
+
 @media (max-width: 480px) {
     section {
         padding: 40px 0;
@@ -484,6 +485,7 @@ footer hr {
     }
 }
 
+
 /* Tablet */
 
 @media (max-width: 768px) {
@@ -529,6 +531,7 @@ footer hr {
         margin-bottom: 1.5rem;
     }
 }
+
 
 /* Desktop */
 @media (max-width: 1024px) {

@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
     hideQuoteResults();
 
     /* =========================================
-       1. Insurance type form switching
+       1. Insurance type and form switching
     ========================================= */
 
     // Add a change event to each insurance type radio button
