@@ -40,12 +40,20 @@
 /* =======================
     General: Body & Section Formatting
     ======================== */
+html,
+body {
+    height: 100%;
+}
+
 
 body {
     font-family: Arial, Helvetica, sans-serif;
     line-height: 1.6;
     color: #191a1b;
     background-color: #ffffff;
+    min-height: 100vh;
+        display: flex;
+        flex-direction: column;
 }
 
 section {
@@ -66,6 +74,14 @@ section h2 {
     margin-bottom: 1rem;
     color: #222;
     text-align: center;
+}
+
+main {
+    flex: 1;
+}
+
+footer {
+    margin-top: auto;
 }
 
 
@@ -491,6 +507,42 @@ section h2 {
     color: #555;
     font-size: 0.95rem;
     margin-bottom: 0;
+}
+
+
+
+
+/* ======================
+    FAQ: Accordion & Search
+    ====================== */
+.accordion-item {
+    border: 1px solid #dee2e6;
+}
+
+.accordion-button {
+    font-weight: 500;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: #dbeafe;
+    color: #1f4f8f;
+    box-shadow: none;
+}
+
+.accordion-body {
+    line-height: 1.8;
+    color: #444;
+}
+
+#faq-search {
+    border: 1px solid #ced4da;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+}
+
+#faq-search:focus {
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+    border-color: #86b7fe;
 }
 
 /* ======================

@@ -1692,7 +1692,7 @@ function createSavedQuoteCardHtml(quote) {
             '<div class="card saved-quote-card shadow-sm">' +
                 '<div class="card-body d-flex flex-column">' +
                     '<h4 class="saved-quote-title h6">' + escapeHtml(quote.customerName) + '</h4>' +
-                    '<p class="saved-quote-meta mb-1"><strong>Insurance Type:</strong> ' + escapeHtml(quote.type) + '</p>' +
+'<p class="saved-quote-meta mb-1"><strong>Insurance Type:</strong> ' + escapeHtml(getShortInsuranceTypeLabel(quote.type)) + '</p>' +
                     '<p class="saved-quote-meta mb-1"><strong>Monthly:</strong> <span class="saved-quote-amount">' + formatCurrency(quote.monthly) + '</span></p>' +
                     '<p class="saved-quote-meta mb-2"><strong>Annual:</strong> <span class="saved-quote-amount">' + formatCurrency(quote.annual) + '</span></p>' +
                     '<p class="saved-quote-saved-at mb-3">Saved: ' + escapeHtml(quote.savedAt) + '</p>' +
@@ -1707,6 +1707,18 @@ function createSavedQuoteCardHtml(quote) {
     );
 }
 
+function getShortInsuranceTypeLabel(type) {
+    switch (type) {
+        case "Auto Insurance":
+            return "Auto";
+        case "Home Insurance":
+            return "Home";
+        case "Life Insurance":
+            return "Life";
+        default:
+            return type;
+    }
+}
 
     // Escape text before inserting into HTML
     function escapeHtml(value) {
