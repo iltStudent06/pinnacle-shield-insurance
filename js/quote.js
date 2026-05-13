@@ -26,6 +26,19 @@ document.addEventListener("DOMContentLoaded", function () {
     // Get the "Get Another Quote" button
     var getAnotherQuoteBtn = document.getElementById("getAnotherQuoteBtn");
 
+    // Get the "Save Quote" button
+    var saveQuoteBtn = document.getElementById("saveQuoteBtn");
+
+    // Get the Saved Quotes section elements
+    var savedQuotesList = document.getElementById("savedQuotesList");
+    var savedQuotesEmpty = document.getElementById("savedQuotesEmpty");
+
+    // Local storage key for saved quotes
+    var savedQuotesStorageKey = "pinnacleSavedQuotes";
+
+    // Hold the currently displayed quote so it can be saved
+    var currentQuoteToSave = null;
+
     // Set up insurance type switching events
     initializeFormSwitching();
 
@@ -34,6 +47,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Set up "Get Another Quote" button event
     initializeGetAnotherQuote();
+
+    // Set up "Save Quote" button event
+    initializeSaveQuote();
+
+    // Load saved quotes from local storage
+    loadSavedQuotes();
+
+    // Set up delete handling for saved quotes
+initializeSavedQuoteDeletion();
 
     // Show/hide the correct sections when the page first loads
     updateQuoteSections();
@@ -1438,6 +1460,15 @@ document.addEventListener("DOMContentLoaded", function () {
         // Stop if the results container does not exist
         if (!quoteResults) return;
 
+        // Save the currently displayed quote so it can be stored later
+        currentQuoteToSave = {
+            customerName: data.customerName || "--",
+            type: data.type || "--",
+            monthly: data.monthly || 0,
+            annual: data.annual || 0,
+            savedAt: new Date().toLocaleString()
+        };
+
         // Fill the summary values
         populateQuoteSummary(data);
 
@@ -1469,6 +1500,9 @@ document.addEventListener("DOMContentLoaded", function () {
     function hideQuoteResults() {
         // Stop if results section does not exist
         if (!quoteResults) return;
+
+        // Clear the currently savable quote
+        currentQuoteToSave = null;
 
         // Hide the section
         quoteResults.classList.add("d-none");
@@ -1539,83 +1573,225 @@ document.addEventListener("DOMContentLoaded", function () {
         return "No impact (x1.0)";
     }
 
-
-
     /* =========================================
-       5. Get Another Quote Button
+       5. Save Quote Button & Saved Quotes
     ========================================= */
 
-// Add click event to the "Get Another Quote" button
-function initializeGetAnotherQuote() {
-    // Stop if button doesn't exist
-    if (!getAnotherQuoteBtn) return;
-
-    // Add click handler
-    getAnotherQuoteBtn.addEventListener("click", handleGetAnotherQuote);
-}
-
-// Reset the form and go back to the top of the form
-function handleGetAnotherQuote() {
-    // Reset quote-specific fields but preserve shared/common fields
-    resetQuoteForm();
-
-    // Remove all validation styling and errors
-    clearAllValidation(form);
-
-    // Hide old quote results
-    hideQuoteResults();
-
-    // Recalculate which sections should be visible
-    updateQuoteSections();
-
-    // Scroll back to the form
-    scrollToForm();
-}
-
-// Reset the quote form but preserve shared fields
-function resetQuoteForm() {
-    // Save shared field values before resetting
-    var sharedValues = getSharedFieldValues();
-
-    // Reset the whole form
-    form.reset();
-
-    // Restore shared field values
-    restoreSharedFieldValues(sharedValues);
-}
-
-// Save the shared fields so the user does not have to enter them again
-function getSharedFieldValues() {
-    return {
-        fullName: getTrimmedValue("fullName"),
-        email: getTrimmedValue("email"),
-        age: getInputValue("age"),
-        zipCode: getTrimmedValue("zipCode")
-    };
-}
-
-// Put the shared values back into the form after reset
-function restoreSharedFieldValues(values) {
-    setFieldValue("fullName", values.fullName);
-    setFieldValue("email", values.email);
-    setFieldValue("age", values.age);
-    setFieldValue("zipCode", values.zipCode);
-}
-
-// Set a field's value by ID
-function setFieldValue(id, value) {
-    var field = document.getElementById(id);
-    if (field) {
-        field.value = value;
+    // Add click event to the "Save Quote" button
+    function initializeSaveQuote() {
+        if (!saveQuoteBtn) return;
+        saveQuoteBtn.addEventListener("click", handleSaveQuote);
     }
+
+    // Save the currently displayed quote
+    function handleSaveQuote() {
+        // Stop if no calculated quote is available
+        if (!currentQuoteToSave) return;
+
+        // Get the saved quotes array
+        var savedQuotes = getSavedQuotes();
+
+        // Add the newest quote to the top
+        savedQuotes.unshift({
+            id: Date.now(),
+            customerName: currentQuoteToSave.customerName,
+            type: currentQuoteToSave.type,
+            monthly: currentQuoteToSave.monthly,
+            annual: currentQuoteToSave.annual,
+            savedAt: new Date().toLocaleString()
+        });
+
+        // Save back to local storage
+        saveSavedQuotes(savedQuotes);
+
+        // Re-render saved quotes
+        renderSavedQuotes(savedQuotes);
+    }
+
+    // Load saved quotes on page load
+    function loadSavedQuotes() {
+        renderSavedQuotes(getSavedQuotes());
+    }
+
+    // Get saved quotes from local storage
+    function getSavedQuotes() {
+        var raw = localStorage.getItem(savedQuotesStorageKey);
+
+        if (!raw) {
+            return [];
+        }
+
+        try {
+            return JSON.parse(raw);
+        } catch (error) {
+            return [];
+        }
+    }
+
+    // Save quotes array to local storage
+    function saveSavedQuotes(savedQuotes) {
+        localStorage.setItem(savedQuotesStorageKey, JSON.stringify(savedQuotes));
+    }
+
+    // Render the Saved Quotes cards
+    function renderSavedQuotes(savedQuotes) {
+        if (!savedQuotesList || !savedQuotesEmpty) return;
+
+        if (!savedQuotes.length) {
+            savedQuotesList.innerHTML = "";
+            savedQuotesEmpty.classList.remove("d-none");
+            return;
+        }
+
+        savedQuotesEmpty.classList.add("d-none");
+
+        savedQuotesList.innerHTML = savedQuotes
+            .map(createSavedQuoteCardHtml)
+            .join("");
+    }
+
+    // Set up click handling for dynamically generated delete buttons
+function initializeSavedQuoteDeletion() {
+    if (!savedQuotesList) return;
+
+    savedQuotesList.addEventListener("click", handleSavedQuotesClick);
 }
 
-// Smooth scroll back to the form
-function scrollToForm() {
-    form.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
+// Handle clicks inside the Saved Quotes list
+function handleSavedQuotesClick(e) {
+    var deleteButton = e.target.closest(".delete-saved-quote-btn");
+
+    // Stop if the click was not on a delete button
+    if (!deleteButton) return;
+
+    var quoteId = Number(deleteButton.dataset.quoteId);
+
+    // Stop if the ID is invalid
+    if (!quoteId) return;
+
+    deleteSavedQuoteById(quoteId);
+}
+
+// Delete one saved quote by ID
+function deleteSavedQuoteById(quoteId) {
+    var savedQuotes = getSavedQuotes();
+
+    var updatedQuotes = savedQuotes.filter(function (quote) {
+        return quote.id !== quoteId;
     });
+
+    saveSavedQuotes(updatedQuotes);
+    renderSavedQuotes(updatedQuotes);
 }
 
+
+    // Create one saved quote card
+function createSavedQuoteCardHtml(quote) {
+    return (
+        '<div class="col-md-6 col-lg-4">' +
+            '<div class="card saved-quote-card shadow-sm">' +
+                '<div class="card-body d-flex flex-column">' +
+                    '<h4 class="saved-quote-title h6">' + escapeHtml(quote.customerName) + '</h4>' +
+                    '<p class="saved-quote-meta mb-1"><strong>Insurance Type:</strong> ' + escapeHtml(quote.type) + '</p>' +
+                    '<p class="saved-quote-meta mb-1"><strong>Monthly:</strong> <span class="saved-quote-amount">' + formatCurrency(quote.monthly) + '</span></p>' +
+                    '<p class="saved-quote-meta mb-2"><strong>Annual:</strong> <span class="saved-quote-amount">' + formatCurrency(quote.annual) + '</span></p>' +
+                    '<p class="saved-quote-saved-at mb-3">Saved: ' + escapeHtml(quote.savedAt) + '</p>' +
+                    '<div class="mt-auto">' +
+                        '<button type="button" class="btn btn-outline-danger btn-sm delete-saved-quote-btn" data-quote-id="' + quote.id + '">' +
+                            '<i class="bi bi-trash-fill me-1"></i>Delete' +
+                        '</button>' +
+                    '</div>' +
+                '</div>' +
+            '</div>' +
+        '</div>'
+    );
+}
+
+
+    // Escape text before inserting into HTML
+    function escapeHtml(value) {
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#39;");
+    }
+
+    /* =========================================
+       6. Get Another Quote Button
+    ========================================= */
+
+    // Add click event to the "Get Another Quote" button
+    function initializeGetAnotherQuote() {
+        // Stop if button doesn't exist
+        if (!getAnotherQuoteBtn) return;
+
+        // Add click handler
+        getAnotherQuoteBtn.addEventListener("click", handleGetAnotherQuote);
+    }
+
+    // Reset the form and go back to the top of the form
+    function handleGetAnotherQuote() {
+        // Reset quote-specific fields but preserve shared/common fields
+        resetQuoteForm();
+
+        // Remove all validation styling and errors
+        clearAllValidation(form);
+
+        // Hide old quote results
+        hideQuoteResults();
+
+        // Recalculate which sections should be visible
+        updateQuoteSections();
+
+        // Scroll back to the form
+        scrollToForm();
+    }
+
+    // Reset the quote form but preserve shared/common fields
+    function resetQuoteForm() {
+        // Save shared/common field values before resetting
+        var sharedValues = getSharedFieldValues();
+
+        // Reset the whole form
+        form.reset();
+
+        // Restore shared/common field values
+        restoreSharedFieldValues(sharedValues);
+    }
+
+    // Save the shared fields so the user does not have to re-enter them
+    function getSharedFieldValues() {
+        return {
+            fullName: getTrimmedValue("fullName"),
+            email: getTrimmedValue("email"),
+            age: getInputValue("age"),
+            zipCode: getTrimmedValue("zipCode")
+        };
+    }
+
+    // Put the shared values back into the form after reset
+    function restoreSharedFieldValues(values) {
+        setFieldValue("fullName", values.fullName);
+        setFieldValue("email", values.email);
+        setFieldValue("age", values.age);
+        setFieldValue("zipCode", values.zipCode);
+    }
+
+    // Set a field's value by ID
+    function setFieldValue(id, value) {
+        var field = document.getElementById(id);
+        if (field) {
+            field.value = value;
+        }
+    }
+
+    // Smooth scroll back to the form
+    function scrollToForm() {
+        form.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+    }
 });
