@@ -23,6 +23,10 @@ document.addEventListener("DOMContentLoaded", function () {
     var resultAnnual = document.getElementById("resultAnnual");
     var quoteBreakdownBody = document.getElementById("quoteBreakdownBody");
 
+
+        // Get the "Print Quote" button
+    var printQuoteBtn = document.getElementById("printQuoteBtn");
+
     // Get the "Get Another Quote" button
     var getAnotherQuoteBtn = document.getElementById("getAnotherQuoteBtn");
 
@@ -50,6 +54,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Set up "Save Quote" button event
     initializeSaveQuote();
+
+        // Set up "Print Quote" button event
+    initializePrintQuote();
+
+
+    // Set up live validation for the Full Name field
+initializeFullNameLiveValidation();
+
 
     // Load saved quotes from local storage
     loadSavedQuotes();
@@ -319,10 +331,10 @@ initializeSavedQuoteDeletion();
         // Start by assuming valid
         var isValid = true;
 
-        // Validate full name
-        if (!validateTextField("fullName", "Full Name", 2)) {
-            isValid = false;
-        }
+// Validate full name
+if (!validateFullNameField("fullName")) {
+    isValid = false;
+}
 
         // Validate email
         if (!validateEmailField("email")) {
@@ -448,6 +460,101 @@ initializeSavedQuoteDeletion();
 
         return isValid;
     }
+
+// Set up live validation for the Full Name field
+function initializeFullNameLiveValidation() {
+    // Get the Full Name field
+    var fullNameField = document.getElementById("fullName");
+
+    // Stop if the field does not exist
+    if (!fullNameField) return;
+
+    // Validate while the user types
+    fullNameField.addEventListener("input", function () {
+        validateFullNameLive(this);
+    });
+
+    // Also validate when the user leaves the field
+    fullNameField.addEventListener("blur", function () {
+        validateFullNameLive(this);
+    });
+}
+
+// Check the Full Name field while the user types
+function validateFullNameLive(field) {
+    // Stop if the field is missing or disabled
+    if (!field || field.disabled) return true;
+
+    // Read the current value exactly as typed
+    var value = field.value;
+
+    // If the field is blank, remove the invalid-character message
+    // The required-field error will still be handled on form submit
+    if (!value.trim()) {
+        clearFieldError(field);
+        return true;
+    }
+
+    // Show an error if the value contains numbers or invalid special characters
+    if (!containsOnlyValidFullNameCharacters(value)) {
+        showFieldError(field, "Full Name cannot contain numbers or special characters.");
+        return false;
+    }
+
+    // If valid, clear the error
+    clearFieldError(field);
+    return true;
+}
+
+// Return true if the name contains only allowed characters while typing
+function containsOnlyValidFullNameCharacters(value) {
+    // Allows letters, spaces, apostrophes, and hyphens
+    var fullNameCharacterRegex = /^[A-Za-zÀ-ÿ '\-]*$/;
+    return fullNameCharacterRegex.test(value);
+}
+
+// Validate Full Name on form submit
+function validateFullNameField(id) {
+    // Get the field by ID
+    var field = document.getElementById(id);
+
+    // Skip validation if field is missing or disabled
+    if (!field || field.disabled) return true;
+
+    // Remove extra spaces from the entered value
+    var value = field.value.trim();
+
+    // Check if blank
+    if (!value) {
+        showFieldError(field, "Full Name is required.");
+        return false;
+    }
+
+    // Check minimum length
+    if (value.length < 2) {
+        showFieldError(field, "Full Name must be at least 2 characters.");
+        return false;
+    }
+
+    // Check final Full Name format
+    if (!isValidFullName(value)) {
+        showFieldError(field, "Full Name cannot contain numbers or special characters.");
+        return false;
+    }
+
+    // If valid, clear any old error
+    clearFieldError(field);
+    return true;
+}
+
+// Return true if the Full Name has a valid final structure
+function isValidFullName(value) {
+    // Requires letters and allows spaces, apostrophes, and hyphens between words
+    var fullNameRegex = /^[A-Za-zÀ-ÿ]+([ '-][A-Za-zÀ-ÿ]+)*$/;
+    return fullNameRegex.test(value);
+}
+
+
 
     // Validate a text field
     function validateTextField(id, label, minLength) {
@@ -1730,8 +1837,35 @@ function getShortInsuranceTypeLabel(type) {
             .replace(/'/g, "&#39;");
     }
 
+
+
+
+
+
     /* =========================================
-       6. Get Another Quote Button
+       6. Print Quote Button
+    ========================================= */
+
+    // Add click event to the "Print Quote" button
+    function initializePrintQuote() {
+        if (!printQuoteBtn) return;
+
+        printQuoteBtn.addEventListener("click", handlePrintQuote);
+    }
+
+    // Print only if quote results are visible
+    function handlePrintQuote() {
+        if (!quoteResults || quoteResults.classList.contains("d-none")) {
+            return;
+        }
+
+        window.print();
+    }
+
+
+
+    /* =========================================
+       7. Get Another Quote Button
     ========================================= */
 
     // Add click event to the "Get Another Quote" button

@@ -596,7 +596,6 @@ footer hr {
 ========================= */
 
 /* Mobile */
-
 @media (max-width: 480px) {
     section {
         padding: 40px 0;
@@ -617,6 +616,11 @@ footer hr {
 
     .hero-section p {
         font-size: 0.95rem;
+    }
+
+    .about-content p {
+        font-size: 1rem;
+        line-height: 1.7;
     }
 
     .quote-summary-header {
@@ -647,6 +651,30 @@ footer hr {
         padding: 1.25rem 0.75rem;
     }
 
+    .executive-img {
+        width: 120px;
+        height: 120px;
+    }
+
+    .value-item {
+        max-width: 100%;
+        padding: 1.5rem 1rem;
+    }
+
+    .accordion-button {
+        font-size: 0.95rem;
+        padding: 1rem;
+    }
+
+    .accordion-body {
+        font-size: 0.95rem;
+        line-height: 1.7;
+    }
+
+    #faq-search {
+        font-size: 1rem;
+    }
+
     footer {
         text-align: center;
     }
@@ -655,7 +683,6 @@ footer hr {
         margin-bottom: 1.5rem;
     }
 }
-
 
 /* Tablet */
 
@@ -693,6 +720,15 @@ footer hr {
         min-width: 180px;
     }
 
+    .executive-img {
+        width: 140px;
+        height: 140px;
+    }
+
+    .value-item {
+        flex: 1 1 45%;
+        max-width: 320px;
+    }
 
     footer {
         text-align: center;
@@ -702,7 +738,6 @@ footer hr {
         margin-bottom: 1.5rem;
     }
 }
-
 
 /* Desktop */
 @media (max-width: 1024px) {
@@ -732,5 +767,8 @@ footer hr {
         justify-content: center;
     }
 
-  
+    .about-content {
+        max-width: 760px;
+        margin: 0 auto;
+    }
 }
