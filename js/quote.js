@@ -23,25 +23,35 @@ document.addEventListener("DOMContentLoaded", function () {
     var resultAnnual = document.getElementById("resultAnnual");
     var quoteBreakdownBody = document.getElementById("quoteBreakdownBody");
 
-
-        // Get the "Print Quote" button
-    var printQuoteBtn = document.getElementById("printQuoteBtn");
-
     // Get the "Get Another Quote" button
     var getAnotherQuoteBtn = document.getElementById("getAnotherQuoteBtn");
 
     // Get the "Save Quote" button
     var saveQuoteBtn = document.getElementById("saveQuoteBtn");
 
+    // Get the "Compare Quotes" button
+    var compareQuoteBtn = document.getElementById("compareQuoteBtn");
+
+    // Get the "Print Quote" button
+    var printQuoteBtn = document.getElementById("printQuoteBtn");
+
+
     // Get the Saved Quotes section elements
     var savedQuotesList = document.getElementById("savedQuotesList");
     var savedQuotesEmpty = document.getElementById("savedQuotesEmpty");
+
+    // Get the Quote Comparison section
+    var quoteComparisonSection = document.getElementById("quoteComparisonSection");
+    var quoteComparisonContent = document.getElementById("quoteComparisonContent");
 
     // Local storage key for saved quotes
     var savedQuotesStorageKey = "pinnacleSavedQuotes";
 
     // Hold the currently displayed quote so it can be saved
     var currentQuoteToSave = null;
+
+    // Hold the first quote for comparison
+    var firstQuoteToCompare = null;
 
     // Set up insurance type switching events
     initializeFormSwitching();
@@ -55,25 +65,30 @@ document.addEventListener("DOMContentLoaded", function () {
     // Set up "Save Quote" button event
     initializeSaveQuote();
 
-        // Set up "Print Quote" button event
+    // Set up "Compare Quotes" button event
+    initializeCompareQuote();
+
+    // Set up "Print Quote" button event
     initializePrintQuote();
 
 
     // Set up live validation for the Full Name field
-initializeFullNameLiveValidation();
-
+    initializeFullNameLiveValidation();
 
     // Load saved quotes from local storage
     loadSavedQuotes();
 
     // Set up delete handling for saved quotes
-initializeSavedQuoteDeletion();
+    initializeSavedQuoteDeletion();
 
     // Show/hide the correct sections when the page first loads
     updateQuoteSections();
 
     // Hide the quote results when the page first loads
     hideQuoteResults();
+
+    // Hide the quote comparison when the page first loads
+    hideQuoteComparison();
 
     /* =========================================
        1. Insurance type and form switching
@@ -93,6 +108,9 @@ initializeSavedQuoteDeletion();
 
         // Hide previous quote results
         hideQuoteResults();
+
+        // Hide previous quote comparison
+        hideQuoteComparison();
 
         // Show the correct form section
         updateQuoteSections();
@@ -331,10 +349,10 @@ initializeSavedQuoteDeletion();
         // Start by assuming valid
         var isValid = true;
 
-// Validate full name
-if (!validateFullNameField("fullName")) {
-    isValid = false;
-}
+        // Validate full name
+        if (!validateFullNameField("fullName")) {
+            isValid = false;
+        }
 
         // Validate email
         if (!validateEmailField("email")) {
@@ -461,100 +479,98 @@ if (!validateFullNameField("fullName")) {
         return isValid;
     }
 
-// Set up live validation for the Full Name field
-function initializeFullNameLiveValidation() {
-    // Get the Full Name field
-    var fullNameField = document.getElementById("fullName");
+    // Set up live validation for the Full Name field
+    function initializeFullNameLiveValidation() {
+        // Get the Full Name field
+        var fullNameField = document.getElementById("fullName");
 
-    // Stop if the field does not exist
-    if (!fullNameField) return;
+        // Stop if the field does not exist
+        if (!fullNameField) return;
 
-    // Validate while the user types
-    fullNameField.addEventListener("input", function () {
-        validateFullNameLive(this);
-    });
+        // Validate while the user types
+        fullNameField.addEventListener("input", function () {
+            validateFullNameLive(this);
+        });
 
-    // Also validate when the user leaves the field
-    fullNameField.addEventListener("blur", function () {
-        validateFullNameLive(this);
-    });
-}
+        // Also validate when the user leaves the field
+        fullNameField.addEventListener("blur", function () {
+            validateFullNameLive(this);
+        });
+    }
 
-// Check the Full Name field while the user types
-function validateFullNameLive(field) {
-    // Stop if the field is missing or disabled
-    if (!field || field.disabled) return true;
+    // Check the Full Name field while the user types
+    function validateFullNameLive(field) {
+        // Stop if the field is missing or disabled
+        if (!field || field.disabled) return true;
 
-    // Read the current value exactly as typed
-    var value = field.value;
+        // Read the current value exactly as typed
+        var value = field.value;
 
-    // If the field is blank, remove the invalid-character message
-    // The required-field error will still be handled on form submit
-    if (!value.trim()) {
+        // If the field is blank, remove the invalid-character message
+        // The required-field error will still be handled on form submit
+        if (!value.trim()) {
+            clearFieldError(field);
+            return true;
+        }
+
+        // Show an error if the value contains numbers or invalid special characters
+        if (!containsOnlyValidFullNameCharacters(value)) {
+            showFieldError(field, "Full Name cannot contain numbers or special characters.");
+            return false;
+        }
+
+        // If valid, clear the error
         clearFieldError(field);
         return true;
     }
 
-    // Show an error if the value contains numbers or invalid special characters
-    if (!containsOnlyValidFullNameCharacters(value)) {
-        showFieldError(field, "Full Name cannot contain numbers or special characters.");
-        return false;
+    // Return true if the name contains only allowed characters while typing
+    function containsOnlyValidFullNameCharacters(value) {
+        // Allows letters, spaces, apostrophes, and hyphens
+        var fullNameCharacterRegex = /^[A-Za-z�-� '\-]*$/;
+        return fullNameCharacterRegex.test(value);
     }
 
-    // If valid, clear the error
-    clearFieldError(field);
-    return true;
-}
+    // Validate Full Name on form submit
+    function validateFullNameField(id) {
+        // Get the field by ID
+        var field = document.getElementById(id);
 
-// Return true if the name contains only allowed characters while typing
-function containsOnlyValidFullNameCharacters(value) {
-    // Allows letters, spaces, apostrophes, and hyphens
-    var fullNameCharacterRegex = /^[A-Za-zÀ-ÿ '\-]*$/;
-    return fullNameCharacterRegex.test(value);
-}
+        // Skip validation if field is missing or disabled
+        if (!field || field.disabled) return true;
 
-// Validate Full Name on form submit
-function validateFullNameField(id) {
-    // Get the field by ID
-    var field = document.getElementById(id);
+        // Remove extra spaces from the entered value
+        var value = field.value.trim();
 
-    // Skip validation if field is missing or disabled
-    if (!field || field.disabled) return true;
+        // Check if blank
+        if (!value) {
+            showFieldError(field, "Full Name is required.");
+            return false;
+        }
 
-    // Remove extra spaces from the entered value
-    var value = field.value.trim();
+        // Check minimum length
+        if (value.length < 2) {
+            showFieldError(field, "Full Name must be at least 2 characters.");
+            return false;
+        }
 
-    // Check if blank
-    if (!value) {
-        showFieldError(field, "Full Name is required.");
-        return false;
+        // Check final Full Name format
+        if (!isValidFullName(value)) {
+            showFieldError(field, "Full Name cannot contain numbers or special characters.");
+            return false;
+        }
+
+        // If valid, clear any old error
+        clearFieldError(field);
+        return true;
     }
 
-    // Check minimum length
-    if (value.length < 2) {
-        showFieldError(field, "Full Name must be at least 2 characters.");
-        return false;
+    // Return true if the Full Name has a valid final structure
+    function isValidFullName(value) {
+        // Requires letters and allows spaces, apostrophes, and hyphens between words
+        var fullNameRegex = /^[A-Za-z�-�]+([ '-][A-Za-z�-�]+)*$/;
+        return fullNameRegex.test(value);
     }
-
-    // Check final Full Name format
-    if (!isValidFullName(value)) {
-        showFieldError(field, "Full Name cannot contain numbers or special characters.");
-        return false;
-    }
-
-    // If valid, clear any old error
-    clearFieldError(field);
-    return true;
-}
-
-// Return true if the Full Name has a valid final structure
-function isValidFullName(value) {
-    // Requires letters and allows spaces, apostrophes, and hyphens between words
-    var fullNameRegex = /^[A-Za-zÀ-ÿ]+([ '-][A-Za-zÀ-ÿ]+)*$/;
-    return fullNameRegex.test(value);
-}
-
-
 
     // Validate a text field
     function validateTextField(id, label, minLength) {
@@ -1567,13 +1583,14 @@ function isValidFullName(value) {
         // Stop if the results container does not exist
         if (!quoteResults) return;
 
-        // Save the currently displayed quote so it can be stored later
+        // Save the currently displayed quote so it can be stored later or compared
         currentQuoteToSave = {
             customerName: data.customerName || "--",
             type: data.type || "--",
             monthly: data.monthly || 0,
             annual: data.annual || 0,
-            savedAt: new Date().toLocaleString()
+            savedAt: new Date().toLocaleString(),
+            breakdown: copyBreakdownRows(data.breakdown || [])
         };
 
         // Fill the summary values
@@ -1582,8 +1599,18 @@ function isValidFullName(value) {
         // Fill the breakdown table
         renderBreakdownRows(data.breakdown || []);
 
-        // Reveal the results area
+        // Reveal the normal results area
         revealQuoteResults();
+
+        // If a first quote exists, show the side-by-side comparison too
+        if (firstQuoteToCompare) {
+            renderQuoteComparison(firstQuoteToCompare, currentQuoteToSave);
+
+            // Clear the stored first quote after comparison is shown
+            firstQuoteToCompare = null;
+        } else {
+            hideQuoteComparison();
+        }
     }
 
     // Fill in the summary text values
@@ -1681,7 +1708,252 @@ function isValidFullName(value) {
     }
 
     /* =========================================
-       5. Save Quote Button & Saved Quotes
+       5. Compare Quotes Button & Comparison View
+    ========================================= */
+
+    // Add click event to the "Compare Quotes" button
+    function initializeCompareQuote() {
+        if (!compareQuoteBtn) return;
+        compareQuoteBtn.addEventListener("click", handleCompareQuote);
+    }
+
+    // Save the first quote and prepare the form for a second quote
+    function handleCompareQuote() {
+        // Stop if there is no current quote to compare
+        if (!currentQuoteToSave) return;
+
+        // Save a copy of the first quote
+        firstQuoteToCompare = copyQuoteForComparison(currentQuoteToSave);
+
+        // Reset quote-specific fields but keep shared customer info
+        resetQuoteForm();
+
+        // Clear validation and hide old single results
+        clearAllValidation(form);
+        hideQuoteResults();
+        hideQuoteComparison();
+        updateQuoteSections();
+
+        // Scroll back to the form so the user can enter the second quote
+        scrollToForm();
+    }
+
+    // Make a safe copy of a quote object for comparison
+    function copyQuoteForComparison(quote) {
+        return {
+            customerName: quote.customerName,
+            type: quote.type,
+            monthly: quote.monthly,
+            annual: quote.annual,
+            breakdown: copyBreakdownRows(quote.breakdown || [])
+        };
+    }
+
+    // Copy breakdown rows so the original data is preserved
+    function copyBreakdownRows(rows) {
+        return rows.map(function (row) {
+            return {
+                factor: row.factor || "",
+                info: row.info || "",
+                impact: row.impact || ""
+            };
+        });
+    }
+
+
+    // Render two quotes side by side
+    function renderQuoteComparison(firstQuote, secondQuote) {
+        if (!quoteComparisonSection || !quoteComparisonContent) return;
+
+        var differentFactors = getDifferentBreakdownFactors(
+            firstQuote.breakdown || [],
+            secondQuote.breakdown || []
+        );
+
+        quoteComparisonContent.innerHTML =
+            '<div class="col-lg-6">' +
+            createQuoteComparisonCardHtml("First Quote", firstQuote, differentFactors) +
+            '</div>' +
+            '<div class="col-lg-6">' +
+            createQuoteComparisonCardHtml("Second Quote", secondQuote, differentFactors) +
+            '</div>';
+
+        quoteComparisonSection.classList.remove("d-none");
+
+        quoteComparisonSection.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+    }
+
+
+    // Build one comparison card with summary + breakdown table
+    function createQuoteComparisonCardHtml(title, quote, differentFactors) {
+        return (
+            '<div class="card quote-comparison-card shadow-sm">' +
+            '<div class="card-header">' + escapeHtml(title) + '</div>' +
+            '<div class="card-body">' +
+            createQuoteComparisonSummaryHtml(quote) +
+            createQuoteComparisonBreakdownHtml(quote.breakdown || [], differentFactors) +
+            '</div>' +
+            '</div>'
+        );
+    }
+
+
+
+    // Build the summary box for one quote
+    function createQuoteComparisonSummaryHtml(quote) {
+        return (
+            '<div class="quote-comparison-summary">' +
+            '<p><strong>Customer:</strong> ' + escapeHtml(quote.customerName || "--") + '</p>' +
+            '<p><strong>Insurance Type:</strong> ' + escapeHtml(quote.type || "--") + '</p>' +
+            '<p><strong>Monthly Premium:</strong> ' + formatCurrency(quote.monthly || 0) + '</p>' +
+            '<p class="mb-0"><strong>Annual Premium:</strong> ' + formatCurrency(quote.annual || 0) + '</p>' +
+            '</div>'
+        );
+    }
+
+    // Build the breakdown table for one quote
+    function createQuoteComparisonBreakdownHtml(rows, differentFactors) {
+        return (
+            '<div class="quote-comparison-table">' +
+            '<h4 class="h6 mb-3">Quote Breakdown</h4>' +
+            '<div class="table-responsive">' +
+            '<table class="table table-striped table-sm">' +
+            '<thead>' +
+            '<tr>' +
+            '<th>Factor</th>' +
+            '<th>Your Info</th>' +
+            '<th>Impact</th>' +
+            '</tr>' +
+            '</thead>' +
+            '<tbody>' +
+            rows.map(function (row) {
+                return createComparisonBreakdownRowHtml(
+                    row,
+                    differentFactors && differentFactors[row.factor]
+                );
+            }).join("") +
+            '</tbody>' +
+            '</table>' +
+            '</div>' +
+            '</div>'
+        );
+    }
+
+
+
+    // Create one breakdown row for the comparison tables
+    function createComparisonBreakdownRowHtml(row, shouldHighlight) {
+        var rowClass = shouldHighlight ? "compare-highlight-row" : "";
+
+        return (
+            '<tr class="' + rowClass + '">' +
+            '<td>' + escapeHtml(row.factor || "—") + '</td>' +
+            '<td>' + escapeHtml(row.info || "—") + '</td>' +
+            '<td>' + escapeHtml(row.impact || "—") + '</td>' +
+            '</tr>'
+        );
+    }
+
+
+    // Return an object of factor names that differ between the two breakdown arrays
+    function getDifferentBreakdownFactors(firstBreakdown, secondBreakdown) {
+        var factorMap = {};
+        var differentFactors = {};
+
+        // Collect all factor names from both quotes
+        firstBreakdown.forEach(function (row) {
+            factorMap[row.factor] = true;
+        });
+
+        secondBreakdown.forEach(function (row) {
+            factorMap[row.factor] = true;
+        });
+
+        // Compare matching rows by factor name
+        Object.keys(factorMap).forEach(function (factorName) {
+            var firstRow = findBreakdownRowByFactor(firstBreakdown, factorName);
+            var secondRow = findBreakdownRowByFactor(secondBreakdown, factorName);
+
+            // If one side is missing, mark as different
+            if (!firstRow || !secondRow) {
+                differentFactors[factorName] = true;
+                return;
+            }
+
+            // If info or impact differs, mark as different
+            if (firstRow.info !== secondRow.info || firstRow.impact !== secondRow.impact) {
+                differentFactors[factorName] = true;
+            }
+        });
+
+        return differentFactors;
+    }
+
+    // Find one breakdown row by factor name
+    function findBreakdownRowByFactor(rows, factorName) {
+        for (var i = 0; i < rows.length; i++) {
+            if (rows[i].factor === factorName) {
+                return rows[i];
+            }
+        }
+
+        return null;
+    }
+
+
+
+    // Hide and reset comparison section
+    function hideQuoteComparison() {
+        if (!quoteComparisonSection || !quoteComparisonContent) return;
+
+        quoteComparisonSection.classList.add("d-none");
+        quoteComparisonContent.innerHTML = "";
+    }
+
+/* =========================================
+   Print Quote Button
+========================================= */
+
+// Add click event to the "Print Quote" button
+function initializePrintQuote() {
+    // Stop if button doesn't exist
+    if (!printQuoteBtn) {
+        console.log("Print Quote button not found");
+        return;
+    }
+
+    console.log("Print Quote button initialized");
+    printQuoteBtn.addEventListener("click", handlePrintQuote);
+}
+
+// Print only if there is something visible to print
+function handlePrintQuote() {
+    console.log("Print Quote button clicked");
+
+    var hasVisibleQuoteResults =
+        quoteResults && !quoteResults.classList.contains("d-none");
+
+    var hasVisibleComparison =
+        quoteComparisonSection && !quoteComparisonSection.classList.contains("d-none");
+
+    // If neither the normal quote results nor the comparison section is visible,
+    // stop and tell the user to calculate a quote first
+    if (!hasVisibleQuoteResults && !hasVisibleComparison) {
+        console.log("Nothing visible to print");
+        alert("Please calculate a quote before printing.");
+        return;
+    }
+
+    // Open the browser print dialog
+    window.print();
+}
+
+
+    /* =========================================
+       6. Save Quote Button & Saved Quotes
     ========================================= */
 
     // Add click event to the "Save Quote" button
@@ -1758,74 +2030,74 @@ function isValidFullName(value) {
     }
 
     // Set up click handling for dynamically generated delete buttons
-function initializeSavedQuoteDeletion() {
-    if (!savedQuotesList) return;
+    function initializeSavedQuoteDeletion() {
+        if (!savedQuotesList) return;
 
-    savedQuotesList.addEventListener("click", handleSavedQuotesClick);
-}
+        savedQuotesList.addEventListener("click", handleSavedQuotesClick);
+    }
 
-// Handle clicks inside the Saved Quotes list
-function handleSavedQuotesClick(e) {
-    var deleteButton = e.target.closest(".delete-saved-quote-btn");
+    // Handle clicks inside the Saved Quotes list
+    function handleSavedQuotesClick(e) {
+        var deleteButton = e.target.closest(".delete-saved-quote-btn");
 
-    // Stop if the click was not on a delete button
-    if (!deleteButton) return;
+        // Stop if the click was not on a delete button
+        if (!deleteButton) return;
 
-    var quoteId = Number(deleteButton.dataset.quoteId);
+        var quoteId = Number(deleteButton.dataset.quoteId);
 
-    // Stop if the ID is invalid
-    if (!quoteId) return;
+        // Stop if the ID is invalid
+        if (!quoteId) return;
 
-    deleteSavedQuoteById(quoteId);
-}
+        deleteSavedQuoteById(quoteId);
+    }
 
-// Delete one saved quote by ID
-function deleteSavedQuoteById(quoteId) {
-    var savedQuotes = getSavedQuotes();
+    // Delete one saved quote by ID
+    function deleteSavedQuoteById(quoteId) {
+        var savedQuotes = getSavedQuotes();
 
-    var updatedQuotes = savedQuotes.filter(function (quote) {
-        return quote.id !== quoteId;
-    });
+        var updatedQuotes = savedQuotes.filter(function (quote) {
+            return quote.id !== quoteId;
+        });
 
-    saveSavedQuotes(updatedQuotes);
-    renderSavedQuotes(updatedQuotes);
-}
-
+        saveSavedQuotes(updatedQuotes);
+        renderSavedQuotes(updatedQuotes);
+    }
 
     // Create one saved quote card
-function createSavedQuoteCardHtml(quote) {
-    return (
-        '<div class="col-md-6 col-lg-4">' +
+    function createSavedQuoteCardHtml(quote) {
+        return (
+            '<div class="col-md-6 col-lg-4">' +
             '<div class="card saved-quote-card shadow-sm">' +
-                '<div class="card-body d-flex flex-column">' +
-                    '<h4 class="saved-quote-title h6">' + escapeHtml(quote.customerName) + '</h4>' +
-'<p class="saved-quote-meta mb-1"><strong>Insurance Type:</strong> ' + escapeHtml(getShortInsuranceTypeLabel(quote.type)) + '</p>' +
-                    '<p class="saved-quote-meta mb-1"><strong>Monthly:</strong> <span class="saved-quote-amount">' + formatCurrency(quote.monthly) + '</span></p>' +
-                    '<p class="saved-quote-meta mb-2"><strong>Annual:</strong> <span class="saved-quote-amount">' + formatCurrency(quote.annual) + '</span></p>' +
-                    '<p class="saved-quote-saved-at mb-3">Saved: ' + escapeHtml(quote.savedAt) + '</p>' +
-                    '<div class="mt-auto">' +
-                        '<button type="button" class="btn btn-outline-danger btn-sm delete-saved-quote-btn" data-quote-id="' + quote.id + '">' +
-                            '<i class="bi bi-trash-fill me-1"></i>Delete' +
-                        '</button>' +
-                    '</div>' +
-                '</div>' +
+            '<div class="card-body d-flex flex-column">' +
+            '<h4 class="saved-quote-title h6">' + escapeHtml(quote.customerName) + '</h4>' +
+            '<p class="saved-quote-meta mb-1"><strong>Insurance Type:</strong> ' + escapeHtml(getShortInsuranceTypeLabel(quote.type)) + '</p>' +
+            '<p class="saved-quote-meta mb-1"><strong>Monthly:</strong> <span class="saved-quote-amount">' + formatCurrency(quote.monthly) + '</span></p>' +
+            '<p class="saved-quote-meta mb-2"><strong>Annual:</strong> <span class="saved-quote-amount">' + formatCurrency(quote.annual) + '</span></p>' +
+            '<p class="saved-quote-saved-at mb-3">Saved: ' + escapeHtml(quote.savedAt) + '</p>' +
+            '<div class="mt-auto">' +
+            '<button type="button" class="btn btn-outline-danger btn-sm delete-saved-quote-btn" data-quote-id="' + quote.id + '">' +
+            '<i class="bi bi-trash-fill me-1"></i>Delete' +
+            '</button>' +
             '</div>' +
-        '</div>'
-    );
-}
-
-function getShortInsuranceTypeLabel(type) {
-    switch (type) {
-        case "Auto Insurance":
-            return "Auto";
-        case "Home Insurance":
-            return "Home";
-        case "Life Insurance":
-            return "Life";
-        default:
-            return type;
+            '</div>' +
+            '</div>' +
+            '</div>'
+        );
     }
-}
+
+    // Return short insurance type labels for saved quotes
+    function getShortInsuranceTypeLabel(type) {
+        switch (type) {
+            case "Auto Insurance":
+                return "Auto";
+            case "Home Insurance":
+                return "Home";
+            case "Life Insurance":
+                return "Life";
+            default:
+                return type;
+        }
+    }
 
     // Escape text before inserting into HTML
     function escapeHtml(value) {
@@ -1836,33 +2108,6 @@ function getShortInsuranceTypeLabel(type) {
             .replace(/"/g, "&quot;")
             .replace(/'/g, "&#39;");
     }
-
-
-
-
-
-
-    /* =========================================
-       6. Print Quote Button
-    ========================================= */
-
-    // Add click event to the "Print Quote" button
-    function initializePrintQuote() {
-        if (!printQuoteBtn) return;
-
-        printQuoteBtn.addEventListener("click", handlePrintQuote);
-    }
-
-    // Print only if quote results are visible
-    function handlePrintQuote() {
-        if (!quoteResults || quoteResults.classList.contains("d-none")) {
-            return;
-        }
-
-        window.print();
-    }
-
-
 
     /* =========================================
        7. Get Another Quote Button
@@ -1887,6 +2132,12 @@ function getShortInsuranceTypeLabel(type) {
 
         // Hide old quote results
         hideQuoteResults();
+
+        // Hide old comparison results
+        hideQuoteComparison();
+
+        // Clear stored comparison quote
+        firstQuoteToCompare = null;
 
         // Recalculate which sections should be visible
         updateQuoteSections();
