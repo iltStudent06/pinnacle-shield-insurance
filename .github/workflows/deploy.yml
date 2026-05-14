@@ -32,7 +32,7 @@ jobs:
       - name: Check CSS and JS files exist
         run: |
           echo "Checking for required asset files..."
-          for file in css/styles.css js/quote.js js/main.js js/faq.js; do
+          for file in css/styles.css css/print.css js/quote.js js/main.js js/faq.js; do
             if [ ! -f "$file" ]; then
               echo "ERROR: $file is missing!"
               exit 1
