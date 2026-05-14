@@ -52,8 +52,8 @@ body {
     color: #191a1b;
     background-color: #ffffff;
     min-height: 100vh;
-        display: flex;
-        flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 section {
@@ -84,7 +84,15 @@ footer {
     margin-top: auto;
 }
 
+.print-only {
+    display: none !important;
+}
 
+@media print {
+    .print-only {
+        display: block !important;
+    }
+}
 /* =======================
     Homepage: Hero
     ======================== */
@@ -363,7 +371,6 @@ footer {
 }
 
 .placeholder-btn {
-    pointer-events: none;
     cursor: not-allowed;
     opacity: 1;
     background-color: #ffffff;
@@ -433,6 +440,101 @@ footer {
 
 .delete-saved-quote-btn {
     margin-top: 0.25rem;
+}
+
+/* =========================
+   Quote Comparison Section
+========================= */
+.quote-comparison-card {
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    height: 100%;
+}
+
+.quote-comparison-card .card-header {
+    font-weight: 700;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.quote-comparison-summary {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.quote-comparison-summary p {
+    margin-bottom: 0.5rem;
+}
+
+.quote-comparison-table thead th {
+    background-color: #212529;
+    color: #ffffff;
+    border-color: #212529;
+}
+
+
+
+
+
+/* Highlight differing rows in quote comparison tables */
+.compare-highlight-row td {
+    background-color: #fff3cd !important;
+    border-left: 3px solid #ffc107;
+    font-weight: 500;
+}
+
+.quote-comparison-section {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 0.5rem !important;
+}
+
+.quote-comparison-section .card-body {
+    padding-top: 1.25rem !important;
+}
+
+.quote-comparison-table .table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.quote-comparison-table th,
+.quote-comparison-table td {
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    vertical-align: top;
+    font-size: 0.92rem;
+}
+
+.quote-comparison-table th:nth-child(1),
+.quote-comparison-table td:nth-child(1) {
+    width: 28%;
+}
+
+.quote-comparison-table th:nth-child(2),
+.quote-comparison-table td:nth-child(2) {
+    width: 30%;
+}
+
+.quote-comparison-table th:nth-child(3),
+.quote-comparison-table td:nth-child(3) {
+    width: 42%;
+}
+
+.quote-comparison-table .table-responsive {
+    overflow-x: visible;
+}
+
+@media (max-width: 991.98px) {
+
+    .quote-comparison-table th,
+    .quote-comparison-table td {
+        font-size: 0.88rem;
+    }
 }
 
 
@@ -591,6 +693,8 @@ footer hr {
 }
 
 
+
+
 /* =========================
    Responsive Design
 ========================= */
@@ -719,6 +823,19 @@ footer hr {
     .quote-action-btn {
         min-width: 180px;
     }
+
+
+
+
+            .quote-comparison-summary {
+                padding: 0.85rem;
+            }
+    
+.quote-comparison-table .table {
+    table-layout: auto;
+    width: 100%;
+}
+
 
     .executive-img {
         width: 140px;
